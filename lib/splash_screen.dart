@@ -25,14 +25,15 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Lottie.asset(
-          "assets/animation/neko_loading.json",
+          "assets/animation/cat_anime_flying.json",
           repeat: true,
-          width: 150,
-          height: 150,
+          width: 200,
+          height: 200,
         ),
       ),
+      backgroundColor: Color.fromRGBO(246, 220, 194, 100),
       // body: Container(
-      //   color: Color.fromRGBO(246, 220, 194, 100),
+      //   color: Color.fromRGBO(),
       // ),
       
     );
