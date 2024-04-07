@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:neko_waifu/home_page.dart';
 import 'package:neko_waifu/main.dart';
+import 'package:neko_waifu/gallery.dart';
 import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,9 +16,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Timer(Duration(seconds: 10), () {
+    Timer(Duration(seconds: 2), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Neko Waifu",)));
+          context, MaterialPageRoute(builder: (context) => const WallpaperGallery()));
     });
   }
 
@@ -31,11 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
           height: 200,
         ),
       ),
-      backgroundColor: Color.fromRGBO(246, 220, 194, 100),
-      // body: Container(
-      //   color: Color.fromRGBO(),
-      // ),
-      
+      backgroundColor: Color.fromRGBO(246, 220, 194, 100),     
     );
   }
 }

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "412225805390",
+    "firebase_url": "https://nekowaifu-37dbb-default-rtdb.firebaseio.com",
+    "project_id": "nekowaifu-37dbb",
+    "storage_bucket": "nekowaifu-37dbb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412225805390:android:d7df7b6d592b88e398b71f",
+        "android_client_info": {
+          "package_name": "com.nekowaifu.neko_waifu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRiNWc0xP1h8i6ZnM4sbAhCbeoAkNBQPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
