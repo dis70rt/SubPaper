@@ -38,6 +38,11 @@ dependencies:
   firebase_database: ^10.5.0
   csv: ^6.0.0
   firebase_core: ^2.28.0
+  flutter_staggered_grid_view: ^0.7.0
+  insta_image_viewer: ^1.0.2
+  image_picker: ^1.0.7
+  flutter_image_compress: ^2.2.0
+  cached_network_image: ^3.3.1
 
 dev_dependencies:
   flutter_test:
