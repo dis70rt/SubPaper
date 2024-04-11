@@ -15,7 +15,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final _database = FirebaseDatabase.instance.ref();
   bool toSwitchScreen = false;
-  var database;
   List wallpaperID = [];
   List urls = [];
 
@@ -31,7 +30,6 @@ class _SplashScreenState extends State<SplashScreen> {
               builder: (context) => HomePage(
                     wallpaperID: wallpaperID,
                     urls: urls,
-                    data: database,
                   )));
     });
   }
@@ -44,7 +42,6 @@ class _SplashScreenState extends State<SplashScreen> {
         .listen((event) {
       var snapshot = event.snapshot;
       Map<dynamic, dynamic> data = snapshot.value as Map<dynamic, dynamic>;
-      database = data;
       for (var element in snapshot.children) {
         var value = data[element.key];
         wallpaperID.add(element.key);
@@ -89,40 +86,40 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 246, 220, 194),
+        backgroundColor: const Color.fromARGB(255, 246, 220, 194),
         body: Stack(children: <Widget>[
-      Center(
-          child: Lottie.asset(
-        "assets/animation/Splash_Screen.json",
-        width: MediaQuery.of(context).size.width,
-      )),
-      Align(
-        alignment: Alignment.bottomCenter,
-        child: Padding(
-          padding: EdgeInsets.all(50),
-          child: Container(
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Text("S U B P A P E R",
-                    style: TextStyle(
-                      fontFamily: "Quartzo",
-                      fontSize: 30,
-                      color: Colors.white,
-                    )),
-                Text("Style that won't taper",
-                    style: TextStyle(
-                      fontFamily: "Salmond",
-                      fontSize: 12,
-                      color: Color.fromRGBO(255, 255, 255, 125),
-                    ))
-              ],
+          Center(
+              child: Lottie.asset(
+            "assets/animation/Splash_Screen.json",
+            width: MediaQuery.of(context).size.width,
+          )),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(50),
+              child: Container(
+                child: const Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Text("S U B P A P E R",
+                        style: TextStyle(
+                          fontFamily: "Quartzo",
+                          fontSize: 30,
+                          color: Colors.white,
+                        )),
+                    Text("Style that won't taper",
+                        style: TextStyle(
+                          fontFamily: "Salmond",
+                          fontSize: 12,
+                          color: Color.fromRGBO(255, 255, 255, 125),
+                        ))
+                  ],
+                ),
+              ),
             ),
-          ),
-        ),
-      )
-    ]));
+          )
+        ]));
   }
 }
