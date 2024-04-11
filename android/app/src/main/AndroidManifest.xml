@@ -14,7 +14,6 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:largeHeap="true"
             android:requestLegacyExternalStorage="true"
             android:name=".MainActivity"
             android:exported="true"

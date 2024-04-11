@@ -3,11 +3,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lottie/lottie.dart';
+import 'package:neko_waifu/about.dart';
+import 'package:nested_scroll_view_plus/nested_scroll_view_plus.dart';
 
 class HomePage extends StatefulWidget {
   final List wallpaperID;
@@ -36,64 +36,96 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: <Widget>[
-        MasonryGridView.builder(
-            itemCount: wallpaperID.length,
-            gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2),
-            itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      showCupertinoModalPopup(
-                          context: context,
-                          builder: (context) =>
-                              FullDisplayImage(url: widget.urls[index]));
-                    });
-                  },
-                  child: Stack(
-                    children: <Widget>[
-                      Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: Card(
-                            elevation: 30,
-                            shadowColor: Colors.black,
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: ShaderMask(
-                                  shaderCallback: (bounds) =>
-                                      const LinearGradient(
-                                    colors: [Colors.black, Colors.transparent],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
-                                  ).createShader(bounds),
-                                  blendMode: BlendMode.multiply,
-                                  child: Stack(
-                                    children: <Widget>[
-                                      CachedNetworkImage(
-                                          fadeInDuration:
-                                              const Duration(seconds: 1),
-                                          imageUrl: widget.urls[index],
-                                          progressIndicatorBuilder: (context,
-                                                  url, downloadProgress) =>
-                                              Lottie.asset(
-                                                  "assets/animation/cat_paw_loading.json",
-                                                  repeat: true,
-                                                  width: 0),
-                                          errorWidget: (context, url, error) {
-                                            removeURL(index);
-                                            return Container(color: Colors.black);
-                                          }
-                                              // const Icon(Icons.error_outline))
-                                  )],
-                                  ),
-                                )),
-                          )),
-                    ],
+        // appBar: const PreferredSize(
+        //     preferredSize: Size.fromHeight(100),
+        //     child: CustomScrollView(slivers: [
+              // SliverAppBar(
+              //   title: Center(
+              //     child: Text(
+              //       "Wall-dit",
+              //       style: TextStyle(fontFamily: "Amcap",
+              //       fontSize: 20,
+              //       color: Colors.white)),
+              //   ),
+              //   expandedHeight: 200,
+              //   stretch: true,
+              //   elevation: 12,
+              //   floating: true,
+              //   pinned: true,
+              //   backgroundColor: Colors.blue,
+                
+              // ),
+        //     ])),
+        body: NestedScrollView(
+          physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()
+          ),
+          headerSliverBuilder: (_, __) => [
+
+            SliverAppBar(
+              backgroundColor: Colors.blue,
+                expandedHeight: 300,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Container(
+                    color: Colors.pink,
                   ),
-                )),
-      ]),
-      backgroundColor: const Color.fromRGBO(255, 219, 231, 100),
-    );
+                  title: const Text(
+                  "      S U B P A P E R",
+                  style: TextStyle(fontFamily: "Salmond",
+                  fontWeight: FontWeight.normal,
+                  fontSize: 20,
+                  color: Colors.white)
+                  ),
+                ),
+                stretch: true,
+                onStretchTrigger: () => Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const About())),
+                elevation: 30,
+                floating: true,
+                pinned: true,
+              )],
+            
+            body: MasonryGridView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemCount: wallpaperID.length,
+              gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2),
+              itemBuilder: (context, index) => GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        showCupertinoModalPopup(
+                            context: context,
+                            builder: (context) =>
+                                FullDisplayImage(url: widget.urls[index]));
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: CachedNetworkImage(
+                            memCacheWidth:
+                                (200 * MediaQuery.of(context).devicePixelRatio)
+                                    .round(),
+                            fadeInDuration: const Duration(seconds: 1),
+                            imageUrl: widget.urls[index],
+                            placeholder: (context, url) => Padding(
+                                padding: const EdgeInsets.all(30),
+                                child: Lottie.asset(
+                                    "assets/animation/loading.json",
+                                    width: 150,
+                                    height: 150)),
+                            errorWidget: (context, url, error) {
+                              // removeURL(index);
+                              return const Icon(Icons.error_outline_outlined);
+                            }),
+                      ),
+                    ),
+                  )),
+        ),
+        backgroundColor: const Color.fromRGBO(24, 24, 24, 1));
   }
 
   void removeURL(int index) {
@@ -161,7 +193,7 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
           Scaffold(
             body: GestureDetector(
               child: Container(
-                padding: const EdgeInsets.all(70),
+                padding: const EdgeInsets.all(60),
                 alignment: Alignment.center,
                 color: Colors.transparent,
                 child: ClipRRect(
@@ -170,7 +202,7 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
                     imageUrl: widget.url,
                     progressIndicatorBuilder:
                         (context, url, downloadProgress) => Lottie.asset(
-                            "assets/animation/cat_paw_loading.json",
+                            "assets/animation/loading.json",
                             repeat: true,
                             width: 150),
                     errorWidget: (context, url, error) => Container(),
