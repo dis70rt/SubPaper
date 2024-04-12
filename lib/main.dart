@@ -3,7 +3,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-import 'package:neko_waifu/dependency_injection.dart';
 import 'package:neko_waifu/home_screen.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,11 +19,10 @@ void main() async {
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   _activateListeners();
-  await Future.delayed(const Duration(seconds: 6));
+  await Future.delayed(const Duration(seconds: 2));
+  _activateListeners();
   FlutterNativeSplash.remove();
-
   runApp(const MyApp());
-  DependencyInjection.init();
 }
 
 void _activateListeners() {
@@ -58,7 +56,9 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         body: DoubleBackToCloseApp(
-          snackBar: const SnackBar(content: Text("Swipe Back again to exit.")),
+          snackBar: const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text("Swipe Back again to exit.")),
           child: HomePage(
             urls: urls,
             wallpaperID: wallpaperID,

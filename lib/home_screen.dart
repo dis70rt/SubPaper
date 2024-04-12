@@ -5,8 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
@@ -47,9 +47,9 @@ class _HomePageState extends State<HomePage> {
               parent: AlwaysScrollableScrollPhysics()),
           headerSliverBuilder: (_, __) => [
             const SliverAppBar(
-              // collapsedHeight: 56,
               backgroundColor: Color.fromRGBO(10, 10, 10, 1),
-              expandedHeight: 100,
+              expandedHeight: 120,
+              collapsedHeight: 70,
               flexibleSpace: Padding(
                 padding: EdgeInsets.only(top: 30),
                 child: SizedBox(
@@ -173,6 +173,7 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
     } catch (e) {
       message = e.toString();
       scaffoldMessenger.showSnackBar(SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Text(
           message,
           style: const TextStyle(
@@ -195,6 +196,7 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
 
       if (result) {
         scaffoldMessenger.showSnackBar(const SnackBar(
+          behavior: SnackBarBehavior.floating,
           content: Text(
             "Wallpaper Set Successfully",
             style: TextStyle(
@@ -208,6 +210,7 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
       }
     } catch (e) {
       scaffoldMessenger.showSnackBar(const SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Text(
           "Failed to set Wallpaper",
           style: TextStyle(
@@ -285,7 +288,7 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black,
       ),
     );
   }
@@ -300,25 +303,27 @@ class SliverAppBarTitle extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              Text("S U B P A P E R",
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            SizedBox(height: 15),
+            Center(
+              child: Text("S U B P A P E R",
                   style: TextStyle(
                     // fontFamily: "Teko",
                     fontSize: 30,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   )),
-              SizedBox(height: 5),
-              Text("D E V E L O P E D   B Y   S A I K A T",
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  )),
-            ],
-          ),
+            ),
+            SizedBox(height: 20),
+            Text("D E V E L O P E D   B Y   S A I K A T",
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.white,
+                  fontWeight: FontWeight.normal,
+                )),
+          ],
         ),
       ),
     );

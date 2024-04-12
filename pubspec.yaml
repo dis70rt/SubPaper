@@ -46,7 +46,6 @@ dependencies:
   flutter_file_dialog: ^3.0.2
   flutter_cache_manager: ^3.3.1
   get: ^4.6.6
-  connectivity_plus: ^6.0.2
   flutter_wallpaper_manager: ^0.0.4
   flutter_native_splash: ^2.4.0
   share_extend: ^2.0.0
