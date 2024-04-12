@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -47,7 +48,7 @@ class _HomePageState extends State<HomePage> {
           headerSliverBuilder: (_, __) => [
             const SliverAppBar(
               // collapsedHeight: 56,
-              backgroundColor: Color.fromARGB(255, 0, 0, 0),
+              backgroundColor: Color.fromRGBO(10, 10, 10, 1),
               expandedHeight: 100,
               flexibleSpace: Padding(
                 padding: EdgeInsets.only(top: 30),
@@ -56,6 +57,7 @@ class _HomePageState extends State<HomePage> {
                   width: 100,
                   child: SliverAppBarTitle())
               ),
+              elevation: 30,
               floating: true,
               pinned: true,
             )
@@ -296,20 +298,22 @@ class SliverAppBarTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
               Text("S U B P A P E R",
                   style: TextStyle(
-                    fontSize: 36,
+                    // fontFamily: "Teko",
+                    fontSize: 30,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   )),
+              SizedBox(height: 5),
               Text("D E V E L O P E D   B Y   S A I K A T",
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 10,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   )),
