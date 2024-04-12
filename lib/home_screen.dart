@@ -45,74 +45,17 @@ class _HomePageState extends State<HomePage> {
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
           headerSliverBuilder: (_, __) => [
-            SliverAppBar(
-              backgroundColor: const Color.fromRGBO(0, 0, 0, 100),
-              expandedHeight: 300,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Stack(
-                  children: <Widget>[
-                    Image.network("https://wallpapercave.com/wp/wp1822356.jpg",
-                        fit: BoxFit.fill),
-                    ClipRRect(
-                      // Clip it cleanly.
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                        child: Container(
-                          color: Colors.grey.withOpacity(0.1),
-                          alignment: Alignment.center,
-                          child: Stack(
-                            children: <Widget>[
-                              Positioned(
-                                top: 70,
-                                left: 50,
-                                child: Card(
-                                  elevation: 10.0,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(15.0)),
-                                  child: Container(
-                                    height: 60,
-                                    width: 60,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(60),
-                                      image: const DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/saikat.png"),
-                                          fit: BoxFit.cover),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const Positioned(
-                                top: 75,
-                                left: 130,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Developed By",
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        )),
-                                    Text("Saikat Das",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal,
-                                        )),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+            const SliverAppBar(
+              // collapsedHeight: 56,
+              backgroundColor: Color.fromARGB(255, 0, 0, 0),
+              expandedHeight: 100,
+              flexibleSpace: Padding(
+                padding: EdgeInsets.only(top: 30),
+                child: SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: SliverAppBarTitle())
               ),
-              elevation: 30,
               floating: true,
               pinned: true,
             )
@@ -281,15 +224,16 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
       child: Scaffold(
         bottomNavigationBar: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(30)),
-          child: Container(
-            color: Colors.blue, //const Color.fromRGBO(18, 18, 18, 100),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            // color: const Color(0x121212),
             child: GNav(
               tabMargin: const EdgeInsets.all(15),
-              backgroundColor:
-                  Colors.amber, //const Color.fromRGBO(18, 18, 18, 100),
+              backgroundColor: const Color.fromARGB(206, 41, 41, 41),
               color: Colors.white,
               activeColor: Colors.white,
-              tabBackgroundColor: const Color.fromARGB(18, 18, 18, 100),
+              tabBackgroundColor: const Color.fromRGBO(18, 18, 18, 1),
+              // tabBorder: Border.all(color: const Color.fromRGBO(18, 18, 18, 1), width: 1),
               padding: const EdgeInsets.all(13),
               gap: 8,
               selectedIndex: 1,
@@ -298,13 +242,12 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
                   icon: Icons.download,
                   text: "Download",
                   onPressed: () =>
-                    downloadImage(context, widget.url, widget.id),
+                      downloadImage(context, widget.url, widget.id),
                 ),
                 GButton(
                   icon: Icons.wallpaper,
                   text: "Set as Wallpaper",
-                  onPressed: () =>
-                    setWallpaper(context, widget.url),
+                  onPressed: () => setWallpaper(context, widget.url),
                 ),
                 GButton(
                   icon: Icons.share,
@@ -340,6 +283,38 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
           },
         ),
         backgroundColor: Colors.transparent,
+      ),
+    );
+  }
+}
+
+class SliverAppBarTitle extends StatelessWidget {
+  const SliverAppBarTitle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.transparent,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Text("S U B P A P E R",
+                  style: TextStyle(
+                    fontSize: 36,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text("D E V E L O P E D   B Y   S A I K A T",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  )),
+            ],
+          ),
+        ),
       ),
     );
   }
