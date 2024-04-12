@@ -9,9 +9,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
+import 'package:share_extend/share_extend.dart';
 
 class HomePage extends StatefulWidget {
   final List wallpaperID;
@@ -276,61 +278,68 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
   Widget build(BuildContext context) {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-      child: Stack(
-        children: <Widget>[
-          Scaffold(
-            body: GestureDetector(
-              child: Container(
-                padding: const EdgeInsets.all(60),
-                alignment: Alignment.center,
-                color: Colors.transparent,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: CachedNetworkImage(
-                    imageUrl: widget.url,
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) => Lottie.asset(
-                            "assets/animation/loading.json",
-                            repeat: true,
-                            width: 150),
-                    errorWidget: (context, url, error) => Container(),
-                  ),
+      child: Scaffold(
+        bottomNavigationBar: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(30)),
+          child: Container(
+            color: Colors.blue, //const Color.fromRGBO(18, 18, 18, 100),
+            child: GNav(
+              tabMargin: const EdgeInsets.all(15),
+              backgroundColor:
+                  Colors.amber, //const Color.fromRGBO(18, 18, 18, 100),
+              color: Colors.white,
+              activeColor: Colors.white,
+              tabBackgroundColor: const Color.fromARGB(18, 18, 18, 100),
+              padding: const EdgeInsets.all(13),
+              gap: 8,
+              selectedIndex: 1,
+              tabs: [
+                GButton(
+                  icon: Icons.download,
+                  text: "Download",
+                  onPressed: () =>
+                    downloadImage(context, widget.url, widget.id),
                 ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            backgroundColor: Colors.transparent,
-          ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            padding: const EdgeInsets.all(30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: IconButton(
-                        onPressed: () =>
-                            downloadImage(context, widget.url, widget.id),
-                        icon: const Icon(Icons.download))),
-                Expanded(
-                    child: ElevatedButton(
-                        onPressed: () => setWallpaper(context, widget.url),
-                        child: const Text("Set as Wallpaper",
-                            style: TextStyle(
-                              fontFamily: "Salmond",
-                              fontSize: 12,
-                            )))),
-                Expanded(
-                    child: IconButton(
-                  onPressed: () => 99,
-                  icon: const Icon(Icons.share),
-                )),
+                GButton(
+                  icon: Icons.wallpaper,
+                  text: "Set as Wallpaper",
+                  onPressed: () =>
+                    setWallpaper(context, widget.url),
+                ),
+                GButton(
+                  icon: Icons.share,
+                  text: "Share",
+                  onPressed: () async {
+                    File image =
+                        await DefaultCacheManager().getSingleFile(widget.url);
+                    ShareExtend.share(image.path, "image");
+                  },
+                )
               ],
             ),
-          )
-        ],
+          ),
+        ),
+        body: GestureDetector(
+          child: Container(
+            padding: const EdgeInsets.all(60),
+            alignment: Alignment.center,
+            color: Colors.transparent,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: CachedNetworkImage(
+                imageUrl: widget.url,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Lottie.asset("assets/animation/loading.json",
+                        repeat: true, width: 150),
+                errorWidget: (context, url, error) => Container(),
+              ),
+            ),
+          ),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: Colors.transparent,
       ),
     );
   }
