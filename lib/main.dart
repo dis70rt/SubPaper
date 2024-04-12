@@ -1,3 +1,4 @@
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -55,9 +56,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: HomePage(
-        urls: urls,
-        wallpaperID: wallpaperID,
+      home: Scaffold(
+        body: DoubleBackToCloseApp(
+          snackBar: const SnackBar(content: Text("Swipe Back again to exit.")),
+          child: HomePage(
+            urls: urls,
+            wallpaperID: wallpaperID,
+          ),
+        ),
       ),
     );
   }

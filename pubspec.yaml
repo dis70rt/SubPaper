@@ -51,6 +51,7 @@ dependencies:
   flutter_native_splash: ^2.4.0
   share_extend: ^2.0.0
   google_nav_bar: ^5.0.6
+  double_back_to_close_app: ^2.1.0
   
 
 dev_dependencies:

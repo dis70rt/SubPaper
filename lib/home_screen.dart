@@ -67,6 +67,7 @@ class _HomePageState extends State<HomePage> {
                   const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2),
               itemBuilder: (context, index) => GestureDetector(
+                
                     onTap: () {
                       setState(() {
                         showCupertinoModalPopup(
