@@ -19,7 +19,7 @@ void main() async {
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   _activateListeners();
-  await Future.delayed(const Duration(seconds: 2));
+  await Future.delayed(const Duration(seconds: 5));
   FlutterNativeSplash.remove();
   runApp(const MyApp());
 }

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:neko_waifu/home_screen.dart';
-import 'package:neko_waifu/main.dart';
+// import 'package:neko_waifu/main.dart';
 
 class ShuffleScreen extends StatefulWidget {
   final List wallpaperID;
@@ -24,14 +24,14 @@ class _ShuffleScreenState extends State<ShuffleScreen> {
   void initState() {
     super.initState();
 
-    wallpaperID.shuffle();
-    urls.shuffle();
+    widget.wallpaperID.shuffle();
+    widget.urls.shuffle();
 
     Timer(const Duration(seconds: 4), () {
       Navigator.pushReplacement(context, MaterialPageRoute(
           builder: ((context) => HomePage(
-                urls: urls,
-                wallpaperID: wallpaperID,
+                urls: widget.urls,
+                wallpaperID: widget.wallpaperID,
               ))));
     });
   }
