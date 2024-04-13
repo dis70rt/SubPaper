@@ -12,6 +12,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:lottie/lottie.dart';
+import 'package:neko_waifu/shuffle_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:share_extend/share_extend.dart';
@@ -46,17 +47,38 @@ class _HomePageState extends State<HomePage> {
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
           headerSliverBuilder: (_, __) => [
-            const SliverAppBar(
-              backgroundColor: Color.fromRGBO(10, 10, 10, 1),
+            SliverAppBar(
+              leading: InkWell(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => ShuffleScreen(
+                      wallpaperID: widget.wallpaperID,
+                      urls: widget.urls)));
+                },
+                child: const Padding(padding: EdgeInsets.all(20.0), child: Icon(Icons.shuffle,color: Colors.white)),
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(20.0),
+              //   child: IconButton(
+              //       onPressed: () {
+              //         print("Button Pressed");
+              //         Navigator.of(context).pop(MaterialPageRoute(
+              //             builder: (context) => ShuffleScreen(
+              //                 shuffleWallpaperID: widget.wallpaperID,
+              //                 shuffleURL: widget.urls)));
+              //       },
+              //       icon: const Icon(
+              //         Icons.shuffle,
+              //         color: Colors.white,
+              //       )),
+              // ),
+              backgroundColor: const Color.fromRGBO(10, 10, 10, 1),
               expandedHeight: 120,
               collapsedHeight: 70,
-              flexibleSpace: Padding(
-                padding: EdgeInsets.only(top: 30),
-                child: SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: SliverAppBarTitle())
-              ),
+              flexibleSpace: const Padding(
+                  padding: EdgeInsets.only(top: 30),
+                  child: SizedBox(
+                      height: 100, width: 100, child: SliverAppBarTitle())),
               elevation: 30,
               floating: true,
               pinned: true,
@@ -69,7 +91,6 @@ class _HomePageState extends State<HomePage> {
                   const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2),
               itemBuilder: (context, index) => GestureDetector(
-                
                     onTap: () {
                       setState(() {
                         showCupertinoModalPopup(
