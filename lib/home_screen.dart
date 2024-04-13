@@ -309,7 +309,7 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
       ),
     );
   }
