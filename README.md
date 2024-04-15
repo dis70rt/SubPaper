@@ -53,7 +53,18 @@ Then, download either Android Studio or Visual Studio Code, with their respectiv
 
 Install dependencies from `pubspec.yaml` by running `flutter pub get` from the project root (see [using packages documentation](https://flutter.io/using-packages/#adding-a-package-dependency-to-an-app) for details and how to do this in the editor).
 
-There you go, you can now open & edit the project. Enjoy!
+### Initilize Firebase with your Project
+- [Install the Firebase CLI](https://firebase.google.com/docs/cli#setup_update_clihttps://firebase.google.com/docs/cli#setup_update_cli)
+
+- Log into Firebase using your Google account by running the following command:
+```
+firebase login
+```
+- Install the FlutterFire CLI by running the following command from any directory:
+```
+dart pub global activate flutterfire_cli
+```
+Follow the Firebase [Docs](https://firebase.google.com/docs/flutter/setup?platform=android) to further Configure your App to use Firebase
 
 ## External Packages Credits
 The App is built from these wonderful packages.
