@@ -5,6 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -51,27 +53,13 @@ class _HomePageState extends State<HomePage> {
               leading: InkWell(
                 onTap: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => ShuffleScreen(
-                      wallpaperID: widget.wallpaperID,
-                      urls: widget.urls)));
+                      builder: (context) => ShuffleScreen(
+                          wallpaperID: widget.wallpaperID, urls: widget.urls)));
                 },
-                child: const Padding(padding: EdgeInsets.all(20.0), child: Icon(Icons.shuffle,color: Colors.white)),
+                child: const Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Icon(Icons.shuffle, color: Colors.white)),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.all(20.0),
-              //   child: IconButton(
-              //       onPressed: () {
-              //         print("Button Pressed");
-              //         Navigator.of(context).pop(MaterialPageRoute(
-              //             builder: (context) => ShuffleScreen(
-              //                 shuffleWallpaperID: widget.wallpaperID,
-              //                 shuffleURL: widget.urls)));
-              //       },
-              //       icon: const Icon(
-              //         Icons.shuffle,
-              //         color: Colors.white,
-              //       )),
-              // ),
               backgroundColor: const Color.fromRGBO(10, 10, 10, 1),
               expandedHeight: 120,
               collapsedHeight: 70,
@@ -135,7 +123,6 @@ class _HomePageState extends State<HomePage> {
     DatabaseReference reference =
         FirebaseDatabase.instance.ref().child("wallpapers");
     reference.child(wallpaperID[index]).remove();
-    // print("Successfully Removed");
   }
 
   void updateScore(int index) async {
@@ -208,42 +195,6 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
     }
   }
 
-  Future<void> setWallpaper(BuildContext context, String url) async {
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
-    try {
-      var file = await DefaultCacheManager().getSingleFile(url);
-      final bool result = await WallpaperManager.setWallpaperFromFile(
-          file.path, WallpaperManager.HOME_SCREEN);
-
-      if (result) {
-        scaffoldMessenger.showSnackBar(const SnackBar(
-          behavior: SnackBarBehavior.floating,
-          content: Text(
-            "Wallpaper Set Successfully",
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ));
-        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-      }
-    } catch (e) {
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        behavior: SnackBarBehavior.floating,
-        content: Text(
-          "Failed to set Wallpaper",
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
@@ -253,14 +204,12 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
           borderRadius: const BorderRadius.all(Radius.circular(30)),
           child: Padding(
             padding: const EdgeInsets.only(bottom: 20),
-            // color: const Color(0x121212),
             child: GNav(
               tabMargin: const EdgeInsets.all(15),
               backgroundColor: const Color.fromARGB(206, 41, 41, 41),
               color: Colors.white,
               activeColor: Colors.white,
               tabBackgroundColor: const Color.fromRGBO(18, 18, 18, 1),
-              // tabBorder: Border.all(color: const Color.fromRGBO(18, 18, 18, 1), width: 1),
               padding: const EdgeInsets.all(13),
               gap: 8,
               selectedIndex: 1,
@@ -272,10 +221,12 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
                       downloadImage(context, widget.url, widget.id),
                 ),
                 GButton(
-                  icon: Icons.wallpaper,
-                  text: "Set as Wallpaper",
-                  onPressed: () => setWallpaper(context, widget.url),
-                ),
+                    icon: Icons.wallpaper,
+                    text: "Set as Wallpaper",
+                    onPressed: () => showDialog(
+                        context: context,
+                        builder: (_) => SetWallPaperDialog(
+                            context: context, url: widget.url))),
                 GButton(
                   icon: Icons.share,
                   text: "Share",
@@ -310,6 +261,147 @@ class _FullDisplayImageState extends State<FullDisplayImage> {
           },
         ),
         backgroundColor: Colors.transparent,
+      ),
+    );
+  }
+}
+
+
+class SetWallPaperDialog extends StatefulWidget {
+  final BuildContext context;
+  final String url;
+
+  const SetWallPaperDialog(
+      {super.key, required this.context, required this.url});
+
+  @override
+  State<SetWallPaperDialog> createState() => _SetWallPaperDialogState();
+}
+
+Future<void> setWallpaper(
+    BuildContext context, String url, int location) async {
+  final scaffoldMessenger = ScaffoldMessenger.of(context);
+  try {
+    var file = await DefaultCacheManager().getSingleFile(url);
+    final bool result = await WallpaperManager.setWallpaperFromFile(
+        file.path, location);
+
+    if (result) {
+      scaffoldMessenger.showSnackBar(const SnackBar(
+        behavior: SnackBarBehavior.floating,
+        content: Text(
+          "Wallpaper Set Successfully",
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ));
+      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+    }
+  } catch (e) {
+    scaffoldMessenger.showSnackBar(const SnackBar(
+      behavior: SnackBarBehavior.floating,
+      content: Text(
+        "Failed to set Wallpaper",
+        style: TextStyle(
+          fontSize: 12,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ));
+  }
+}
+
+class _SetWallPaperDialogState extends State<SetWallPaperDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+      child: SimpleDialog(
+        alignment: Alignment.center,
+        surfaceTintColor: Colors.transparent,
+
+        insetPadding: const EdgeInsets.symmetric(horizontal: 60),
+        // titlePadding: const EdgeInsets.all(5),
+        elevation: 30,
+        backgroundColor: const Color.fromRGBO(28, 28, 28, 1),
+        title: const Center(
+            child: Text(
+          "Set As Wallpaper",
+          style: TextStyle(
+              color: Colors.white, fontSize: 15, fontWeight: FontWeight.normal),
+        )),
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Center(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(25)),
+                child: Container(
+                  width: 160,
+                  color: const Color.fromRGBO(18, 18, 18, 1),
+                  child: SimpleDialogOption(
+                    onPressed: () => setWallpaper(
+                          context, widget.url, WallpaperManager.HOME_SCREEN),
+                    child: const Text(
+                      "Home Screen",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(letterSpacing: 2, color: Colors.white, fontSize: 12),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Center(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(25)),
+                child: Container(
+                  width: 160,
+                  color: const Color.fromRGBO(18, 18, 18, 1),
+                  child: SimpleDialogOption(
+                    onPressed: () => setWallpaper(
+                          widget.context, widget.url, WallpaperManager.LOCK_SCREEN),
+                    child: const Text(
+                      "Lock Screen",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(letterSpacing: 2, color: Colors.white, fontSize: 12),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Center(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(25)),
+                child: Container(
+                  width: 160,
+                  color: const Color.fromRGBO(18, 18, 18, 1),
+                  child: SimpleDialogOption(
+                    onPressed: () => setWallpaper(
+                          context, widget.url, WallpaperManager.BOTH_SCREEN),
+                    child: const Text(
+                      "Both Screen",
+                      
+                      textAlign: TextAlign.center,
+                      style: TextStyle(letterSpacing: 2, color: Colors.white, fontSize: 12),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

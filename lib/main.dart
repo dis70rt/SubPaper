@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'S U B P A P E R',
       theme: ThemeData(
-        useMaterial3: true,
+        useMaterial3: false,
       ),
       home: Scaffold(
         body: DoubleBackToCloseApp(
