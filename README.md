@@ -5,7 +5,7 @@
 <h3 align="center"> Shuffle. Discover. Personalize</h3>
 
 <p align="center">
-  <a href="https://saikat-iit.github.io/SubPaper/apk/stable/SubPaper_stable.apk">
+  <a href="https://saikat-iit.github.io/SubPaper/apk/stable/SubPaper.apk">
     <img src="https://img.shields.io/badge/Direct-Download-green", width="180">
   </a>
   <a href="https://www.buymeacoffee.com/saikat.in">
